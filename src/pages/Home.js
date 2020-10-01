@@ -31,6 +31,7 @@ class Home extends Component {
 
     componentDidMount() {
         this.retrieveClientInfo();
+        this.retrieveBigMacList();
     }
 
     retrieveClientInfo() {
@@ -46,6 +47,19 @@ class Home extends Component {
                     .then((res) => {
                         this.setState({ user_country: res.data.clientCountry.user_country });
                     })
+            }).catch((err) => {
+                this.setState({ error: err });
+            });
+    }
+
+    retrieveBigMacList() {
+        let queryParams = {
+            method: 'GET',
+        };
+
+        return axios.get('http://localhost:3001/bigmacs', queryParams)
+            .then((res) => {
+                console.log(res.data.bigMacList);
             }).catch((err) => {
                 this.setState({ error: err });
             });

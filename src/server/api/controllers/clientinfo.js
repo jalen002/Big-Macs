@@ -14,7 +14,7 @@ module.exports = {
                     user_country: res.data.data.country_name
                 };
             }).catch((err) => {
-                return {Error: err};
+                return {error: err};
             });
     },
 }

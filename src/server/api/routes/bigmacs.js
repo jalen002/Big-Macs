@@ -6,29 +6,11 @@ const bigMacController = require('../controllers/bigmac');
  * GET request to /bigmacs
  */
 router.get('/', (req, res, next) => {
+    const bigMacList = bigMacController.getList();
     res.status(200).json({
-        message: 'All Big Macs were fetched'
+        message: 'Successfully retreived Big Mac list',
+        bigMacList
     });
-});
-
-/**
- * GET request to /bigmacs/:id
- */
-router.get('/:id', (req, res, next) => {
-    res.status(200).json({
-        message: 'Big Mac with id was fetched'
-    });
-});
-
-/**
- * POST create /bigmac
- */
-router.post("/", async (req, res, next) => {
-    const author = await bigMacController.createBigMac(req.body.name)
-    res.status(201).json({
-        message: "Created successfully",
-        author
-    })
 });
   
 
