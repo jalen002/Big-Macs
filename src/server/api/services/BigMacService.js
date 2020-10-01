@@ -15,7 +15,6 @@ class BigMacService {
         fs.createReadStream('data/big-mac-index.csv')
             .pipe(csv())
             .on('data', (row) => {
-                console.log(row);
                 bigMacList.push(row);
             })
             .on('end', () => {

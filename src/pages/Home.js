@@ -4,10 +4,9 @@ import {
     Typography,
     withStyles,
 } from '@material-ui/core';
+import UserInfo from '../components/user/UserInfo';
 
 
-let clientIpUrl = 'https://api.ipify.org';
-let clientInfoUrl = 'http://localhost:3001/clientinfo/';
 const useStyles = theme => ({
     main: {
         padding: theme.spacing(3),
@@ -21,35 +20,23 @@ class Home extends Component {
     constructor(props) {
         super(props); 
 
-        this.retrieveClientInfo = this.retrieveClientInfo.bind(this);
-
         this.state = {
-            user_country: null,
+            userCountry: null,
+            userMoneyAmount: '',
             error: null
         }
     }
 
     componentDidMount() {
-        this.retrieveClientInfo();
         this.retrieveBigMacList();
     }
 
-    retrieveClientInfo() {
-        let clientIpApi = clientIpUrl;
-        let clientInfoApi = clientInfoUrl;
-        let queryParams = {
-            method: 'GET',
-        };
+    handleMoneyChange = (amount) => {
+        this.setState({ userMoneyAmount: amount });
+    }
 
-        return axios.get(clientIpApi, queryParams)
-            .then((res) => {
-                return axios.get(clientInfoApi + res.data, queryParams)
-                    .then((res) => {
-                        this.setState({ user_country: res.data.clientCountry.user_country });
-                    })
-            }).catch((err) => {
-                this.setState({ error: err });
-            });
+    handleCountryLoad = (country) => {
+        this.setState({ userCountry: country });
     }
 
     retrieveBigMacList() {
@@ -67,12 +54,12 @@ class Home extends Component {
 
     render() {
         let { classes } = this.props;
-        let { user_country, error } = this.state;
+        let { userCountry, userMoneyAmount, error } = this.state;
     
         return (
-            <Typography variant='body2' color='textSecondary' component='p'>
-                You are in: {user_country}<br />
-            </Typography>
+            <div>
+                <UserInfo onMoneyChange={this.handleMoneyChange} onUserCountryLoad={this.handleCountryLoad} />
+            </div>
         );
     }
 }
