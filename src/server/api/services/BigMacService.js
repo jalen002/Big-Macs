@@ -22,8 +22,33 @@ class BigMacService {
             });
     }
 
-    getList() {
-        return {BigMacList: bigMacList};
+    getList(country) {
+        let result = country ? this.getMostRecentForCountry(country) : bigMacList;
+        return result;
+    }
+
+    getRandomCountryStats(notCountry) {
+        let notCountryList = bigMacList.filter((bm) => {
+            return bm.Country != notCountry;
+        });
+
+        let randomIndex = parseInt(this.getRandomBetweenMinMax(0, notCountryList.length - 1));
+        let result = this.getMostRecentForCountry(notCountryList[randomIndex].Country);
+        return result;
+    }
+
+    getRandomBetweenMinMax(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    getMostRecentForCountry(country) {
+        let result = bigMacList.filter((bm) => {
+            return country ? (bm.Country == country) : true;
+        }).sort((bm1, bm2) => {
+            return Date.parse(bm2.Date) - Date.parse(bm1.Date);
+        });
+
+        return result[0];
     }
 
 }

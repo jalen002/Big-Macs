@@ -3,8 +3,13 @@ const BigMacServiceInstance = new BigMacService();
 
 
 module.exports = { 
-    getList: () => {
-        const bigMacList = BigMacServiceInstance.getList();
-        return bigMacList;
+    getList: (country) => {
+        const bigMacData = BigMacServiceInstance.getList(country);
+        return bigMacData;
     },
+
+    getRandomCountryStats: (notCountry) => {
+        const randomCountryStats = BigMacServiceInstance.getRandomCountryStats(notCountry);
+        return randomCountryStats;
+    }
 }

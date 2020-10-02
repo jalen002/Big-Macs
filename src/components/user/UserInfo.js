@@ -25,16 +25,19 @@ class UserInfo extends Component {
 
         this.state = {
             userCountry: null,
-            moneyAmount: '',
+            moneyAmount: '0',
+            isLoading: false,
             error: null
         }
     }
 
     componentDidMount() {
+        this.setState({ isLoading: true });
         this.retrieveClientInfo();
     }
 
     handleCountryLoad = (country) => {
+        this.setState({userCountry: country, isLoading: false});
         this.props.onUserCountryLoad(country);            
     }
 
@@ -56,9 +59,8 @@ class UserInfo extends Component {
                 return axios.get(clientInfoApi + res.data, queryParams)
                     .then((res) => {
                         let country = res.data.clientCountry.user_country;
-                        this.setState({ userCountry: country });
-                        this.handleCountryLoad(country)
-                    })
+                        this.handleCountryLoad(country);
+                    });
             }).catch((err) => {
                 this.setState({ error: err });
             });
@@ -66,15 +68,22 @@ class UserInfo extends Component {
 
     render() {
         let { classes } = this.props;
-        let { userCountry, error } = this.state;
+        let { userCountry, isLoading, error } = this.state;
+
+        if (error) {
+            return <p>{error.message}</p>;
+        }
+    
+        if (isLoading) {
+            return <p>Loading ...</p>;
+        }
     
         return (
             <Typography variant='body2' color='textSecondary' component='p'>
                 You are in: {userCountry}<br />
-                <div>
-                    Please enter an amount of money in your local currency: 
-                    <input type='number' value={this.state.moneyAmount} onChange={this.handleMoneyChange} />
-                </div>
+                
+                Please enter an amount of money in your local currency: 
+                <input type='number' value={this.state.moneyAmount} onChange={this.handleMoneyChange} />
             </Typography>
         );
     }

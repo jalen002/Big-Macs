@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import {
-    Typography,
     withStyles,
 } from '@material-ui/core';
 import UserInfo from '../components/user/UserInfo';
+import PurchasingPower from '../components/bigmac/PurchasingPower';
+import RandomCountryStats from '../components/bigmac/RandomCountryStats';
 
 
 const useStyles = theme => ({
@@ -22,43 +22,33 @@ class Home extends Component {
 
         this.state = {
             userCountry: null,
-            userMoneyAmount: '',
-            error: null
+            userMoneyAmount: '0',
+            localPrice: '',
+            localDollarPrice: ''
         }
     }
 
-    componentDidMount() {
-        this.retrieveBigMacList();
-    }
-
     handleMoneyChange = (amount) => {
-        this.setState({ userMoneyAmount: amount });
+        this.setState({userMoneyAmount: amount});
     }
 
     handleCountryLoad = (country) => {
-        this.setState({ userCountry: country });
+        this.setState({userCountry: country});
     }
 
-    retrieveBigMacList() {
-        let queryParams = {
-            method: 'GET',
-        };
-
-        return axios.get('http://localhost:3001/bigmacs', queryParams)
-            .then((res) => {
-                console.log(res.data.bigMacList);
-            }).catch((err) => {
-                this.setState({ error: err });
-            });
+    handleUserCountryDetailLoad = (localPrice, localDollarPrice) => {
+        this.setState({localPrice: localPrice, localDollarPrice: localDollarPrice});
     }
 
     render() {
         let { classes } = this.props;
-        let { userCountry, userMoneyAmount, error } = this.state;
+        let { userCountry, userMoneyAmount, localPrice, localDollarPrice } = this.state;
     
         return (
             <div>
-                <UserInfo onMoneyChange={this.handleMoneyChange} onUserCountryLoad={this.handleCountryLoad} />
+                <UserInfo onMoneyChange={this.handleMoneyChange} onUserCountryLoad={this.handleCountryLoad} /><br />
+                <PurchasingPower userCountry={userCountry} userMoneyAmount={userMoneyAmount} handleUserCountryDetailLoad={this.handleUserCountryDetailLoad} /><br />
+                <RandomCountryStats userCountry={userCountry} userMoneyAmount={userMoneyAmount} localPrice={localPrice} localDollarPrice={localDollarPrice} />
             </div>
         );
     }
