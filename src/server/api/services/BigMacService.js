@@ -12,14 +12,17 @@ class BigMacService {
     }
 
     LoadCSVData() {
-        fs.createReadStream('data/big-mac-index.csv')
+        return new Promise((resolve, reject) => {
+            fs.createReadStream('data/big-mac-index.csv')
             .pipe(csv())
             .on('data', (row) => {
                 bigMacList.push(row);
             })
             .on('end', () => {
                 console.log('CSV file successfully processed');
+                resolve(bigMacList);
             });
+        });
     }
 
     getList(country) {

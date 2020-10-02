@@ -34,9 +34,9 @@ class RandomCountryStats extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.userCountry && this.props.userCountry !== prevProps.userCountry){
+        if(this.props.localCountry && this.props.localCountry !== prevProps.localCountry){
             this.setState({ isLoading: true });
-            this.retrieveRandomCountryStats(this.props.userCountry)
+            this.retrieveRandomCountryStats(this.props.localCountry)
                 .then((res) => {
                     let bmData = res.data.randomStats;
                     this.setState({ randomCountryData: bmData, isLoading: false });
@@ -63,26 +63,30 @@ class RandomCountryStats extends Component {
     }
 
     calculateBigMacsForCountry() {
-        //(INPUT / local price) * (local dollar price / RAND COUNTRY dollar price)
-        let localPrice = parseFloat(this.props.localPrice);
-        let localDollarPrice = parseFloat(this.props.localDollarPrice);
-        let userMoneyAmount = parseFloat(this.props.userMoneyAmount);
-        let result = (userMoneyAmount / localPrice) * (localDollarPrice / this.state.randomCountryData['Dollar ex']);
+        //(INPUT / local price) * (local dollar price / RAND COUNTRY dollar price) -- Equation given...Seems wrong
+        // let localPrice = parseFloat(this.props.localPrice);
+        // let localDollarPrice = parseFloat(this.props.localDollarPrice);
+        // let inputMoney = parseFloat(this.props.inputMoney);
+        // let result = (inputMoney / localPrice) * (localDollarPrice / this.state.randomCountryData['Dollar ex']);
+
+        let currencyWorth = this.calculateCurrencyWorth();
+        let result = currencyWorth / this.state.randomCountryData['Local price'];
 
         return parseInt(result) || 0;
     }
 
     calculateCurrencyWorth() {
         //[INPUT] * (local dollar price / RANDCOUNTRY dollar price)
-        let localDollarPrice = parseFloat(this.props.localDollarPrice);
-        let userMoneyAmount = parseFloat(this.props.userMoneyAmount);
-        let result = userMoneyAmount * (localDollarPrice / this.state.randomCountryData['Dollar ex']);
+        // let localDollarPrice = parseFloat(this.props.localDollarPrice);
+        let inputMoney = parseFloat(this.props.inputMoney);
+        // let result = inputMoney * (localDollarPrice / this.state.randomCountryData['Dollar ex']); -- Equation given...Seems wrong
+        let result = inputMoney * this.state.randomCountryData['Dollar ex'];
 
-        return parseInt(result) || 0;
+        return parseFloat(result).toFixed(2) || 0;
     }
 
     render() {
-        let { classes, userMoneyAmount, localPrice, localDollarPrice } = this.props;
+        let { classes, inputMoney, localPrice, localDollarPrice } = this.props;
         let { randomCountryData, isLoading, error } = this.state;
 
         if (error) {
@@ -97,9 +101,9 @@ class RandomCountryStats extends Component {
             <Typography variant='body2' color='textSecondary' component='p'>
                 Random Country: {randomCountryData.Country}<br />
 
-                You could buy {this.calculateBigMacsForCountry()} of Big Macs in {randomCountryData.Country} with {userMoneyAmount}!<br />
+                You could buy {this.calculateBigMacsForCountry()} Big Macs in {randomCountryData.Country} with {inputMoney}!<br />
 
-                Your {userMoneyAmount} is worth about {this.calculateCurrencyWorth()} in {randomCountryData.Country}
+                Your {inputMoney} is worth about {this.calculateCurrencyWorth()} in {randomCountryData.Country}
             </Typography>
         );
     }

@@ -24,8 +24,8 @@ class UserInfo extends Component {
         this.retrieveClientInfo = this.retrieveClientInfo.bind(this);
 
         this.state = {
-            userCountry: null,
-            moneyAmount: '0',
+            localCountry: null,
+            inputMoney: '0',
             isLoading: false,
             error: null
         }
@@ -37,14 +37,14 @@ class UserInfo extends Component {
     }
 
     handleCountryLoad = (country) => {
-        this.setState({userCountry: country, isLoading: false});
-        this.props.onUserCountryLoad(country);            
+        this.setState({localCountry: country, isLoading: false});
+        this.props.onlocalCountryLoad(country);            
     }
 
     handleMoneyChange = (event) => {
-        let moneyValue = event.target.value;
-        this.setState({ moneyAmount: moneyValue });
-        this.props.onMoneyChange(moneyValue);
+        let inputValue = event.target.value;
+        this.setState({ inputMoney: inputValue });
+        this.props.onMoneyChange(inputValue);
     }
 
     retrieveClientInfo() {
@@ -68,7 +68,7 @@ class UserInfo extends Component {
 
     render() {
         let { classes } = this.props;
-        let { userCountry, isLoading, error } = this.state;
+        let { localCountry, isLoading, error } = this.state;
 
         if (error) {
             return <p>{error.message}</p>;
@@ -80,10 +80,10 @@ class UserInfo extends Component {
     
         return (
             <Typography variant='body2' color='textSecondary' component='p'>
-                You are in: {userCountry}<br />
+                You are in: {localCountry}<br />
                 
                 Please enter an amount of money in your local currency: 
-                <input type='number' value={this.state.moneyAmount} onChange={this.handleMoneyChange} />
+                <input type='number' value={this.state.inputMoney} onChange={this.handleMoneyChange} />
             </Typography>
         );
     }

@@ -14,6 +14,9 @@ const useStyles = theme => ({
             padding: theme.spacing(2),
         },
     },
+    oneThird: {
+        height: '33%'
+    }
 });
 
 class Home extends Component {
@@ -21,34 +24,34 @@ class Home extends Component {
         super(props); 
 
         this.state = {
-            userCountry: null,
-            userMoneyAmount: '0',
+            localCountry: null,
+            inputMoney: '0',
             localPrice: '',
             localDollarPrice: ''
         }
     }
 
     handleMoneyChange = (amount) => {
-        this.setState({userMoneyAmount: amount});
+        this.setState({inputMoney: amount});
     }
 
-    handleCountryLoad = (country) => {
-        this.setState({userCountry: country});
+    handleLocalCountryLoad = (country) => {
+        this.setState({localCountry: country});
     }
 
-    handleUserCountryDetailLoad = (localPrice, localDollarPrice) => {
+    handlelocalCountryDetailLoad = (localPrice, localDollarPrice) => {
         this.setState({localPrice: localPrice, localDollarPrice: localDollarPrice});
     }
 
     render() {
         let { classes } = this.props;
-        let { userCountry, userMoneyAmount, localPrice, localDollarPrice } = this.state;
+        let { localCountry, inputMoney, localPrice, localDollarPrice } = this.state;
     
         return (
             <div>
-                <UserInfo onMoneyChange={this.handleMoneyChange} onUserCountryLoad={this.handleCountryLoad} /><br />
-                <PurchasingPower userCountry={userCountry} userMoneyAmount={userMoneyAmount} handleUserCountryDetailLoad={this.handleUserCountryDetailLoad} /><br />
-                <RandomCountryStats userCountry={userCountry} userMoneyAmount={userMoneyAmount} localPrice={localPrice} localDollarPrice={localDollarPrice} />
+                <UserInfo className={classes.oneThird} onMoneyChange={this.handleMoneyChange} onlocalCountryLoad={this.handleLocalCountryLoad} /><br />
+                <PurchasingPower className={classes.oneThird} localCountry={localCountry} inputMoney={inputMoney} handlelocalCountryDetailLoad={this.handlelocalCountryDetailLoad} /><br />
+                <RandomCountryStats className={classes.oneThird} localCountry={localCountry} inputMoney={inputMoney} localPrice={localPrice} localDollarPrice={localDollarPrice} />
             </div>
         );
     }

@@ -23,7 +23,7 @@ class PurchasingPower extends Component {
         this.retrieveCurrencyInfoForCountry = this.retrieveCurrencyInfoForCountry.bind(this);
 
         this.state = {
-            currentCountryData: {},
+            localCountryData: {},
             isLoading: false,
             error: null
         }
@@ -34,13 +34,13 @@ class PurchasingPower extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.userCountry && prevProps.userCountry !== this.props.userCountry){
+        if(this.props.localCountry && prevProps.localCountry !== this.props.localCountry){
             this.setState({ isLoading: true });
-            this.retrieveCurrencyInfoForCountry(this.props.userCountry)
+            this.retrieveCurrencyInfoForCountry(this.props.localCountry)
                 .then((res) => {
                     let bmData = res.data.bigMacData;
-                    this.setState({ currentCountryData: bmData, isLoading: false });
-                    this.props.handleUserCountryDetailLoad(bmData['Local price'], bmData['Dollar ex']);
+                    this.setState({ localCountryData: bmData, isLoading: false });
+                    this.props.handlelocalCountryDetailLoad(bmData['Local price'], bmData['Dollar ex']);
                 }).catch((err) => {
                     this.setState({ error: err, isLoading: false });
                 })
@@ -64,14 +64,14 @@ class PurchasingPower extends Component {
     }
 
     calculateBigMacs() {
-        let userMoneyAmount = this.props.userMoneyAmount;
-        let countryLocalPrice = this.state.currentCountryData['Local price'];
-        return userMoneyAmount && countryLocalPrice ? (parseInt(parseFloat(userMoneyAmount) / parseFloat(countryLocalPrice))) : 0
+        let inputMoney = this.props.inputMoney;
+        let countryLocalPrice = this.state.localCountryData['Local price'];
+        return inputMoney && countryLocalPrice ? (parseInt(parseFloat(inputMoney) / parseFloat(countryLocalPrice))) : 0
     }
 
     render() {
-        let { classes, userMoneyAmount } = this.props;
-        let { currentCountryData, isLoading, error } = this.state;
+        let { classes, inputMoney } = this.props;
+        let { localCountryData, isLoading, error } = this.state;
 
         if (error) {
             return <p>{error.message}</p>;
@@ -85,7 +85,7 @@ class PurchasingPower extends Component {
             <Typography variant='body2' color='textSecondary' component='p'>
                 You could buy {this.calculateBigMacs()} Big Macs in your country.<br />
 
-                Your Dollar Purchasing Parity (PPP) is {currentCountryData['Dollar PPP']}
+                Your Dollar Purchasing Parity (PPP) is {localCountryData['Dollar PPP']}
             </Typography>
         );
     }
