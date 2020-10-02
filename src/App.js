@@ -12,7 +12,8 @@ const styles = theme => ({
     padding: theme.spacing(3),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2),
-    }
+    },
+    height: '100vh',
   },
 });
 

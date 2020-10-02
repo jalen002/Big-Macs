@@ -15,7 +15,7 @@ const useStyles = theme => ({
         },
     },
     oneThird: {
-        height: '33%'
+        height: '33vh'
     }
 });
 
@@ -49,9 +49,15 @@ class Home extends Component {
     
         return (
             <div>
-                <UserInfo className={classes.oneThird} onMoneyChange={this.handleMoneyChange} onlocalCountryLoad={this.handleLocalCountryLoad} /><br />
-                <PurchasingPower className={classes.oneThird} localCountry={localCountry} inputMoney={inputMoney} handlelocalCountryDetailLoad={this.handlelocalCountryDetailLoad} /><br />
-                <RandomCountryStats className={classes.oneThird} localCountry={localCountry} inputMoney={inputMoney} localPrice={localPrice} localDollarPrice={localDollarPrice} />
+                <div className={classes.oneThird}>
+                    <UserInfo className={classes.oneThird} onMoneyChange={this.handleMoneyChange} onlocalCountryLoad={this.handleLocalCountryLoad} /><br />
+                </div>
+                <div className={classes.oneThird}>
+                    <PurchasingPower className={classes.oneThird} localCountry={localCountry} inputMoney={inputMoney} handlelocalCountryDetailLoad={this.handlelocalCountryDetailLoad} /><br />
+                </div>
+                <div className={classes.oneThird}>
+                    <RandomCountryStats className={classes.oneThird} localCountry={localCountry} inputMoney={inputMoney} localPrice={localPrice} localDollarPrice={localDollarPrice} />
+                </div>
             </div>
         );
     }

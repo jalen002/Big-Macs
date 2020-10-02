@@ -9,12 +9,9 @@ import {
 let clientIpUrl = 'https://api.ipify.org';
 let clientInfoUrl = 'http://localhost:3001/clientinfo/';
 const useStyles = theme => ({
-    main: {
-        padding: theme.spacing(3),
-        [theme.breakpoints.down('xs')]: {
-            padding: theme.spacing(2),
-        },
-    },
+    inputSpacing: {
+        margin: '5px',
+    }
 });
 
 class UserInfo extends Component {
@@ -83,7 +80,7 @@ class UserInfo extends Component {
                 You are in: {localCountry}<br />
                 
                 Please enter an amount of money in your local currency: 
-                <input type='number' value={this.state.inputMoney} onChange={this.handleMoneyChange} />
+                <input className={classes.inputSpacing} type='number' value={this.state.inputMoney} onChange={this.handleMoneyChange} />
             </Typography>
         );
     }
