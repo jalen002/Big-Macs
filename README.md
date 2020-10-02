@@ -9,7 +9,7 @@ amount of Big Macs user could buy as well as the conversion to the Random Countr
 the correct data.
 
 ## Improvements
-We need to have more unit tests for NodeJS server written to have better code coverage and also more tests for the UI as well.
+I need to have more unit tests for NodeJS server written to have better code coverage and also more tests for the UI as well.
 
 ## Available Scripts
 
