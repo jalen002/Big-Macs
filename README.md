@@ -1,8 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Known Issues!
-The IpVigilante website has been uexpectedly down since about Thursday 9/30/2020. I am currently defaulting users local country to the United States 
-until I can circumvent the issue and get a workaround.  
+The IpVigilante website has been uexpectedly down since about Thursday 9/30/2020. The way I get around this is, I still make the IPVigilante request but if it fails, then I just default the users country to 'United States'. 
 
 Not so much an issue, but the formulas given to me for the assignment were incorrect and provided invalid information about the Random Country and the 
 amount of Big Macs user could buy as well as the conversion to the Random Countries currency. Those formulas are fixed and working now so they provide 
