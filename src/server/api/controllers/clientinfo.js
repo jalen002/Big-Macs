@@ -14,7 +14,10 @@ module.exports = {
                     user_country: res.data.data.country_name
                 };
             }).catch((err) => {
-                return {error: err};
+                return {
+                    error: 'There was an error calling IP_Vigilante, defaulting to United States. ' + err,
+                    user_country: 'United States'                
+                };
             });
     },
 }
